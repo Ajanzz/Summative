@@ -1,0 +1,61 @@
+class FreeTypeMenu extends JPanel:
+    JButton tenButton
+    JButton thirtyButton
+    JButton sixtyButton
+
+    FreeTypeMenu():
+        setSize(1200, 800)
+        JPanel modesPanel = new JPanel(null)
+        JLabel titleLabel = new JLabel("SELECT YOUR TIME", SwingConstants.CENTER)
+        titleLabel.setFont("Helvetica Neue", Font.BOLD, 70)
+        titleLabel.setForeground(Color.WHITE)
+        titleLabel.setBounds(0, -300, 1200, 800)
+
+        tenButton = RoundedButton("10 Seconds", 70)
+        tenButton.setFont("Helvetica Neue", Font.BOLD, 35)
+        tenButton.setBackground(Color(204, 65, 146))
+        tenButton.setForeground(Color(255, 255, 255))
+        tenButton.setFocusPainted(false)
+        tenButton.setBounds(100, 250, 300, 70)
+        tenButton.addActionListener():
+            Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeTypeMenu.this)
+            menu.getContentPane().removeAll()
+            menu.getContentPane().add(Ten())
+            menu.validate()
+            menu.repaint()
+
+        thirtyButton = RoundedButton("30 Seconds", 70)
+        thirtyButton.setFont("Helvetica Neue", Font.BOLD, 35)
+        thirtyButton.setBackground(Color(204, 65, 146))
+        thirtyButton.setForeground(Color(255, 255, 255))
+        thirtyButton.setFocusPainted(false)
+        thirtyButton.setBounds(450, 250, 300, 70)
+        thirtyButton.addActionListener():
+            Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeTypeMenu.this)
+            menu.getContentPane().removeAll()
+            menu.getContentPane().add(SequenceMemory())
+            menu.validate()
+            menu.repaint()
+
+        sixtyButton = RoundedButton("60 Seconds", 70)
+        sixtyButton.setFont("Helvetica Neue", Font.BOLD, 35)
+        sixtyButton.setBackground(Color(204, 65, 146))
+        sixtyButton.setForeground(Color(255, 255, 255))
+        sixtyButton.setFocusPainted(false)
+        sixtyButton.setBounds(800, 250, 300, 70)
+        sixtyButton.addActionListener():
+            Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeTypeMenu.this)
+            menu.getContentPane().removeAll()
+            menu.getContentPane().add(GameController(60))
+            menu.validate()
+            menu.repaint()
+
+        modesPanel.setOpaque(false)
+        modesPanel.add(titleLabel)
+        modesPanel.add(tenButton)
+        modesPanel.add(thirtyButton)
+        modesPanel.add(sixtyButton)
+
+        setOpaque(false)
+        setLayout(BorderLayout)
+        add(modesPanel, BorderLayout.CENTER)
