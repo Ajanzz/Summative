@@ -14,6 +14,7 @@ public class Menu extends JFrame {
     private int panelY;
     private JButton closeButton;
     private JButton exitButton;
+    private JButton logoButton;
 
     public Menu() {
         super("Touch Typer");
@@ -23,10 +24,10 @@ public class Menu extends JFrame {
         setLayout(null);
         setResizable(false);
 
-        JLabel titleLabel = new JLabel("Touch Typer", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 50));
-        titleLabel.setForeground(new Color(255,255,255));
-        titleLabel.setBounds(0,-100,1200,800);
+        logoButton = new ImageButton("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\logo.png");
+        logoButton.setVisible(true);
+        logoButton.setBounds(450,50,300,290);
+        logoButton.setFocusPainted(false);
 
         startButton = new RoundedButton("START",60);
         startButton.setFont(new Font("Helvetica Neue", Font.BOLD, 40));
@@ -55,7 +56,6 @@ public class Menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e){
                 instructionPanel.setVisible(false);
-                titleLabel.setVisible(true);
                 startButton.setVisible(true);
                 aboutButton.setVisible(true);
                 exitButton.setVisible(true);
@@ -74,7 +74,6 @@ public class Menu extends JFrame {
             public void actionPerformed(ActionEvent e){
                 
                 showInstructionsPanel();
-                titleLabel.setVisible(false);
                 startButton.setVisible(false);
                 aboutButton.setVisible(false);
                 exitButton.setVisible(false);
@@ -123,12 +122,12 @@ public class Menu extends JFrame {
         JPanel menuPanel = new JPanel(new BorderLayout());
         menuPanel.setLayout(null);
         menuPanel.setOpaque(false);
-        menuPanel.add(titleLabel);
         menuPanel.add(aboutButton);
         menuPanel.add(startButton);
         menuPanel.add(closeButton);
         menuPanel.add(instructionPanel);
         menuPanel.add(exitButton);
+        menuPanel.add(logoButton);
 
         setContentPane(menuPanel);
         setVisible(true);
