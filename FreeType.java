@@ -1,5 +1,6 @@
 package src.java.main;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +22,12 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
 
     private int wordCounter = 0;
     private int first = 1;
+    private int totalTime;
     private int timer;
+
+    private int countAll = 0;
+    private int counter = 0;
+    private int elapsedTime = 0;
 
     private File saveData;
 
@@ -36,6 +42,7 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
     private JTextField userWord = new JTextField(20);
 
     private JButton playAgainButton = new JButton();
+    private JButton homeButton = new JButton();
 
     ArrayList<String> words = new ArrayList<>();
 
@@ -44,7 +51,8 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
     int frameHeight;
 
     public FreeType(int duration){
-        timer = duration;
+        totalTime = duration;
+        timer = totalTime;
         start(); 
         addToList();
         initialize();
@@ -98,18 +106,24 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         userWord.addKeyListener(this);
         userWord.setActionCommand("keyIn");
 
-        playAgainButton = new RoundedButton("", 60);
-        playAgainButton.setVisible(false);
-        playAgainButton.setText("PLAY AGAIN");
-        playAgainButton.setActionCommand("next");
-        playAgainButton.setFont(new Font("Helvetica Neue", Font.BOLD, 30));
-        playAgainButton.setBackground(new Color(204, 65, 146));
-        playAgainButton.setForeground(new Color(255,255,255));
-        playAgainButton.setBounds((frameWidth-250)/2,550,250,60);
-        playAgainButton.addActionListener(this);
+        playAgainButton = new ImageButton("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\tryagain.png");
+        playAgainButton.setBounds(570,525,60,60);
         playAgainButton.setFocusPainted(false);
         
-
+        homeButton = new ImageButton("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\home.png");
+        homeButton.setVisible(true);
+        homeButton.setBounds(9,10,60,60);
+        homeButton.setFocusPainted(false);
+        /* 
+        homeButton.setText("image");
+        homeButton.setActionCommand("home");
+        homeButton.setFont(new Font("Helvetica Neue", Font.BOLD, 30));
+        homeButton.setBackground(new Color(204, 65, 146));
+        homeButton.setForeground(new Color(255,255,255));
+        homeButton.setBounds((frameWidth-250)/2,550,250,60);
+        homeButton.addActionListener(this);
+        homeButton.setFocusPainted(false);
+        */
         
         panel.add(secondsLabel);         
         panel.add(wpmLabel);         
@@ -118,6 +132,7 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         panel.add(secondProgramWordLabel); 
         panel.add(userWord);      
         panel.add(playAgainButton);  
+        panel.add(homeButton);  
         
     }
 
@@ -195,7 +210,7 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
                     }
                 }
 
-                if (timer == -4) {
+                if (timer == -2) {
                     playAgainButton.setVisible(true);
                     playAgainButton.setEnabled(true);
                     executor.shutdown();
@@ -257,8 +272,6 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         }
     };
 */
-    private int countAll = 0;
-    private int counter = 0;
 
     public void startGame(KeyEvent ke) {
 
@@ -274,7 +287,6 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
             String real = programWordLabel.getText();
             countAll++;
         
-
             // if correct
             if (s.equals(real)) {
                 counter++;
@@ -324,8 +336,10 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         int keyCode = ke.getKeyCode();
 
         String keyString = "key code = " + keyCode + " (" + KeyEvent.getKeyText(keyCode) + ")";
-        System.out.println("action::" + keyString + ", " + KeyEvent.VK_SPACE);
+        System.out.println("action:" + keyString + ", " + KeyEvent.VK_SPACE);
     
+        elapsedTime = totalTime - timer;
+
         // only gets called once
         if (first == 1) {
             first = 0;
@@ -334,25 +348,30 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
 
         if ((keyCode == KeyEvent.VK_SPACE) || (keyCode == KeyEvent.VK_ENTER)) {
 
-            String s = userWord.getText();
+            String userType = userWord.getText().trim();
             String real = programWordLabel.getText();
             countAll++;
         
+            System.out.println("userType:'" + userType + "', real: '" + real + "'");
 
             // if correct
-            if (s.equals(real)) {
+            if (userType.equals(real)) {
                 counter++;
-                wpmLabel.setText(String.valueOf(counter));
 
                 //Thread t = new Thread(fadeCorrect);
                 //t.start();
+                
+                System.out.println("correct");
             } 
             else {
                 //Thread t = new Thread(fadeWrong);
                 //t.start();
+                System.out.println("incorrect");
             }
+
+            wpmLabel.setText(String.valueOf((counter*60)/elapsedTime));
             userWord.setText("");
-            accuracyLabel.setText(String.valueOf(Math.round((counter * 1.0 / countAll) * 100)));
+            accuracyLabel.setText(String.valueOf(Math.round((counter * 1.0 / countAll) * 100)) + "%");
             programWordLabel.setText(words.get(wordCounter));
             secondProgramWordLabel.setText(words.get(wordCounter + 1));
             wordCounter++;
