@@ -1,0 +1,21 @@
+class LessonPlan:
+    private String difficulty
+    private List<String> keysToLearn
+    private int currentLevelIndex
+
+    LessonPlan(difficulty, keysToLearn):
+        this.difficulty = difficulty
+        this.keysToLearn = keysToLearn
+        this.currentLevelIndex = 0
+
+    getDifficulty():
+        return difficulty
+
+    getKeysToLearn():
+        return keysToLearn
+
+    hasNextLevel():
+        return currentLevelIndex < keysToLearn.size() - 1
+
+    moveToNextLevel():
+        currentLevelIndex++
