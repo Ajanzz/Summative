@@ -1,85 +1,40 @@
-class GameController extends JPanel implements ActionListener, KeyListener {
-    int wordCounter
-    int first
-    int timer
+class FreeType extends JPanel implements ActionListener, KeyListener {
+    // Declare class fields
+    private int wordCounter
+    private int first
+    private int timer
+    private File saveData
+    private ScheduledExecutorService executor
+    private JLabel secondsLabel
+    private JLabel wpmLabel
+    private JLabel accuracyLabel
+    private JLabel programWordLabel
+    private JLabel secondProgramWordLabel
+    private JTextField userWord
+    private JButton playAgainButton
+    private ArrayList<String> words
+    private int frameWidth
+    private int frameHeight
 
-    File saveData
-    ScheduledExecutorService executor
-    JLabel secondsLabel
-    JLabel wpmLabel
-    JLabel accuracyLabel
-    JLabel programWordLabel
-    JLabel secondProgramWordLabel
-    JTextField userWord
-    JButton playAgainButton
-    ArrayList<String> words
-    int frameWidth
-    int frameHeight
-
-    GameController(int duration):
+    // Constructor
+    FreeType(int duration):
         timer = duration
         start()
         addToList()
         initialize()
 
-    start():
+    // Initialize GUI components and layout
+    private void start():
         frameWidth = 1200
         frameHeight = 800
-
         setSize(frameWidth, frameHeight)
         JPanel panel = new JPanel()
         panel.setOpaque(false)
         panel.setLayout(null)
-
         setOpaque(false)
-        setLayout(BorderLayout)
+        setLayout(new BorderLayout)
         add(panel, BorderLayout.CENTER)
-
-        secondsLabel.setFont("Helvetica Neue", Font.PLAIN, 100)
-        secondsLabel.setForeground(Color.WHITE)
-        secondsLabel.setBounds(-300, -30, frameWidth, 400)
-        secondsLabel.setText(timer)
-
-        wpmLabel.setFont("Helvetica Neue", Font.PLAIN, 100)
-        wpmLabel.setForeground(Color.WHITE)
-        wpmLabel.setBounds(0, -30, frameWidth, 400)
-        wpmLabel.setText("wpm")
-
-        accuracyLabel.setFont("Helvetica Neue", Font.PLAIN, 100)
-        accuracyLabel.setForeground(Color.WHITE)
-        accuracyLabel.setBounds(300, -30, frameWidth, 400)
-        accuracyLabel.setText("acc")
-
-        programWordLabel.setFont("Helvetica Neue", Font.PLAIN, 50)
-        programWordLabel.setForeground(Color.WHITE)
-        programWordLabel.setBounds(0, 200, frameWidth, 400)
-        programWordLabel.setText("word")
-
-        secondProgramWordLabel.setFont("Helvetica Neue", Font.PLAIN, 50)
-        secondProgramWordLabel.setForeground(Color.WHITE)
-        secondProgramWordLabel.setBounds(300, 200, frameWidth, 400)
-        secondProgramWordLabel.setText("word2")
-
-        userWord.setVisible(true)
-        userWord.setFont("Helvetica Neue", Font.PLAIN, 25)
-        userWord.setForeground(Color.WHITE)
-        userWord.setBackground(Color(34, 21, 54))
-        userWord.setBounds(frameWidth / 2 - 100, 450, 200, 50)
-        userWord.addActionListener(this)
-        userWord.addKeyListener(this)
-        userWord.setActionCommand("keyIn")
-
-        playAgainButton = RoundedButton("", 60)
-        playAgainButton.setVisible(false)
-        playAgainButton.setText("PLAY AGAIN")
-        playAgainButton.setActionCommand("next")
-        playAgainButton.setFont("Helvetica Neue", Font.BOLD, 30)
-        playAgainButton.setBackground(Color(204, 65, 146))
-        playAgainButton.setForeground(Color(255, 255, 255))
-        playAgainButton.setBounds((frameWidth - 250) / 2, 550, 250, 60)
-        playAgainButton.addActionListener(this)
-        playAgainButton.setFocusPainted(false)
-
+        // Initialize and set properties for labels, text field, and button
         panel.add(secondsLabel)
         panel.add(wpmLabel)
         panel.add(accuracyLabel)
@@ -88,10 +43,57 @@ class GameController extends JPanel implements ActionListener, KeyListener {
         panel.add(userWord)
         panel.add(playAgainButton)
 
-    addToList():
-        reader = BufferedReader(FileReader("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordsList.txt"))
-        line = reader.readLine()
-        while (line != null):
-            words.add(line)
-            line = reader.readLine()
-        reader.close()
+    // Load words from a file into the words array list
+    public void addToList():
+        // Read words from a file and populate the words array list
+
+    // Initialize the game state
+    public void initialize():
+        playAgainButton.setVisible(false)
+        playAgainButton.setEnabled(false)
+        addToList()
+        // Shuffle the words array list
+        // Set programWordLabel and secondProgramWordLabel text
+        // Update wordCounter
+
+    // Update the timer label and handle game logic
+    Runnable r = new Runnable():
+        run():
+            if timer > -1:
+                // Update secondsLabel and decrement timer
+            else:
+                if timer == -1:
+                    // Disable userWord field and set text to "Game over"
+                    // Write game statistics to the saveData file
+                if timer == -4:
+                    // Display playAgainButton and enable it
+                    // Shutdown the executor
+
+    // Handle key events and game logic
+    public void startGame(KeyEvent ke):
+        if first == 1:
+            // Schedule the executor to run the r runnable
+        // Handle key events for space or enter key
+        // Check if the user input matches the expected word
+        // Update statistics and GUI components
+        // Clear userWord field
+        // Update programWordLabel and secondProgramWordLabel
+        // Increment wordCounter
+
+    // Handle button click events
+    public void actionPerformed(ActionEvent e):
+        if e.getSource() == playAgainButton:
+            // Perform play again logic
+        action = e.getActionCommand()
+        // Print the action
+
+    // Implement KeyListener methods (unused)
+    public void keyTyped(KeyEvent ke):
+        // Handle key typed event
+
+    public void keyPressed(KeyEvent ke):
+        // Handle key pressed event
+
+    public void keyReleased(KeyEvent ke):
+        // Handle key released event
+}
