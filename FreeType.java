@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class GameController extends JPanel implements ActionListener, KeyListener {
+public class FreeType extends JPanel implements ActionListener, KeyListener {
 
     private int wordCounter = 0;
     private int first = 1;
@@ -43,7 +43,7 @@ public class GameController extends JPanel implements ActionListener, KeyListene
     int frameWidth;
     int frameHeight;
 
-    public GameController(int duration){
+    public FreeType(int duration){
         timer = duration;
         start(); 
         addToList();
@@ -311,19 +311,28 @@ public class GameController extends JPanel implements ActionListener, KeyListene
         System.out.println("action:" + action);
     }
 
+
+
     @Override
     public void keyTyped(KeyEvent ke) {
         // Handle key typed event
-        
-        //int keyevent = ke.getKeyCode();
-        System.out.println("action:" + ke.getKeyCode() + ", " + KeyEvent.VK_SPACE);
-                // only gets called once
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+        // Handle key pressed event
+        int keyCode = ke.getKeyCode();
+
+        String keyString = "key code = " + keyCode + " (" + KeyEvent.getKeyText(keyCode) + ")";
+        System.out.println("action::" + keyString + ", " + KeyEvent.VK_SPACE);
+    
+        // only gets called once
         if (first == 1) {
             first = 0;
-           // executor.scheduleAtFixedRate(r, 0, 1, TimeUnit.SECONDS);
+            executor.scheduleAtFixedRate(r, 0, 1, TimeUnit.SECONDS);
         }
 
-        if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
+        if ((keyCode == KeyEvent.VK_SPACE) || (keyCode == KeyEvent.VK_ENTER)) {
 
             String s = userWord.getText();
             String real = programWordLabel.getText();
@@ -351,12 +360,7 @@ public class GameController extends JPanel implements ActionListener, KeyListene
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        // Handle key pressed event
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent ke) {
         // Handle key released event
     }
 
