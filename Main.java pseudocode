@@ -1,0 +1,4 @@
+function main():
+    invoke SwingUtilities.invokeLater(function():
+        create Menu instance
+    )
