@@ -1,0 +1,97 @@
+class GameController extends JPanel implements ActionListener, KeyListener {
+    int wordCounter
+    int first
+    int timer
+
+    File saveData
+    ScheduledExecutorService executor
+    JLabel secondsLabel
+    JLabel wpmLabel
+    JLabel accuracyLabel
+    JLabel programWordLabel
+    JLabel secondProgramWordLabel
+    JTextField userWord
+    JButton playAgainButton
+    ArrayList<String> words
+    int frameWidth
+    int frameHeight
+
+    GameController(int duration):
+        timer = duration
+        start()
+        addToList()
+        initialize()
+
+    start():
+        frameWidth = 1200
+        frameHeight = 800
+
+        setSize(frameWidth, frameHeight)
+        JPanel panel = new JPanel()
+        panel.setOpaque(false)
+        panel.setLayout(null)
+
+        setOpaque(false)
+        setLayout(BorderLayout)
+        add(panel, BorderLayout.CENTER)
+
+        secondsLabel.setFont("Helvetica Neue", Font.PLAIN, 100)
+        secondsLabel.setForeground(Color.WHITE)
+        secondsLabel.setBounds(-300, -30, frameWidth, 400)
+        secondsLabel.setText(timer)
+
+        wpmLabel.setFont("Helvetica Neue", Font.PLAIN, 100)
+        wpmLabel.setForeground(Color.WHITE)
+        wpmLabel.setBounds(0, -30, frameWidth, 400)
+        wpmLabel.setText("wpm")
+
+        accuracyLabel.setFont("Helvetica Neue", Font.PLAIN, 100)
+        accuracyLabel.setForeground(Color.WHITE)
+        accuracyLabel.setBounds(300, -30, frameWidth, 400)
+        accuracyLabel.setText("acc")
+
+        programWordLabel.setFont("Helvetica Neue", Font.PLAIN, 50)
+        programWordLabel.setForeground(Color.WHITE)
+        programWordLabel.setBounds(0, 200, frameWidth, 400)
+        programWordLabel.setText("word")
+
+        secondProgramWordLabel.setFont("Helvetica Neue", Font.PLAIN, 50)
+        secondProgramWordLabel.setForeground(Color.WHITE)
+        secondProgramWordLabel.setBounds(300, 200, frameWidth, 400)
+        secondProgramWordLabel.setText("word2")
+
+        userWord.setVisible(true)
+        userWord.setFont("Helvetica Neue", Font.PLAIN, 25)
+        userWord.setForeground(Color.WHITE)
+        userWord.setBackground(Color(34, 21, 54))
+        userWord.setBounds(frameWidth / 2 - 100, 450, 200, 50)
+        userWord.addActionListener(this)
+        userWord.addKeyListener(this)
+        userWord.setActionCommand("keyIn")
+
+        playAgainButton = RoundedButton("", 60)
+        playAgainButton.setVisible(false)
+        playAgainButton.setText("PLAY AGAIN")
+        playAgainButton.setActionCommand("next")
+        playAgainButton.setFont("Helvetica Neue", Font.BOLD, 30)
+        playAgainButton.setBackground(Color(204, 65, 146))
+        playAgainButton.setForeground(Color(255, 255, 255))
+        playAgainButton.setBounds((frameWidth - 250) / 2, 550, 250, 60)
+        playAgainButton.addActionListener(this)
+        playAgainButton.setFocusPainted(false)
+
+        panel.add(secondsLabel)
+        panel.add(wpmLabel)
+        panel.add(accuracyLabel)
+        panel.add(programWordLabel)
+        panel.add(secondProgramWordLabel)
+        panel.add(userWord)
+        panel.add(playAgainButton)
+
+    addToList():
+        reader = BufferedReader(FileReader("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordsList.txt"))
+        line = reader.readLine()
+        while (line != null):
+            words.add(line)
+            line = reader.readLine()
+        reader.close()
