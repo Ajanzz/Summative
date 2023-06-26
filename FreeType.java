@@ -7,48 +7,48 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class FreeType extends JPanel implements ActionListener, KeyListener {
+    private int mode;
 
-    private int wordCounter = 0;
+    private int wordCounter;
     private int first = 1;
     private int totalTime;
     private int timer;
 
-    private int countAll = 0;
-    private int counter = 0;
-    private int elapsedTime = 0;
+    private int countAll;
+    private int counter;
+    private int elapsedTime;
 
-    private File saveData;
-
-    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-
+    private JLabel levelLabel = new JLabel("", SwingConstants.CENTER);
     private JLabel secondsLabel = new JLabel("", SwingConstants.CENTER);
     private JLabel wpmLabel = new JLabel("", SwingConstants.CENTER);
     private JLabel accuracyLabel = new JLabel("", SwingConstants.CENTER);
     private JLabel programWordLabel = new JLabel("", SwingConstants.CENTER);
     private JLabel secondProgramWordLabel = new JLabel("", SwingConstants.CENTER);
 
+    private JLabel secondsSubLabel = new JLabel("", SwingConstants.CENTER);
+    private JLabel wpmSubLabel = new JLabel("", SwingConstants.CENTER);
+    private JLabel accuracySubLabel = new JLabel("", SwingConstants.CENTER);
+
     private JTextField userWord = new JTextField(20);
 
     private JButton playAgainButton = new JButton();
+    private JButton homeButton = new JButton();
 
     ArrayList<String> words = new ArrayList<>();
+    ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-    
     int frameWidth;
     int frameHeight;
 
-    public FreeType(int duration){
+    public FreeType(int setMode, int duration){
+        mode = setMode;
         totalTime = duration;
         timer = totalTime;
         start(); 
@@ -70,30 +70,43 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         setLayout(new BorderLayout());
         add(panel, BorderLayout.CENTER);
 
-        secondsLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 100));
+        levelLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 70));
+        levelLabel.setForeground(Color.WHITE);
+        levelLabel.setBounds(0,-100,frameWidth,400);
+
+        secondsLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 50));
         secondsLabel.setForeground(Color.WHITE);
-        secondsLabel.setBounds(-300,-30,frameWidth,400);
-        secondsLabel.setText("" + timer);
+        secondsLabel.setBounds(-300,10,frameWidth,400);
+
+        secondsSubLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        secondsSubLabel.setForeground(new Color(204, 65, 146));
+        secondsSubLabel.setBounds(-300,60,frameWidth,400);
+        secondsSubLabel.setText("Timer");
         
-        wpmLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 100));
+        wpmLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 50));
         wpmLabel.setForeground(Color.WHITE);
-        wpmLabel.setBounds(0,-30,frameWidth,400);
-        wpmLabel.setText("wpm");
+        wpmLabel.setBounds(0,10,frameWidth,400);
+
+        wpmSubLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        wpmSubLabel.setForeground(new Color(204, 65, 146));
+        wpmSubLabel.setBounds(0,60,frameWidth,400);
         
-        accuracyLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 100));
+        accuracyLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 50));
         accuracyLabel.setForeground(Color.WHITE);
-        accuracyLabel.setBounds(300,-30,frameWidth,400);
-        accuracyLabel.setText("acc");
+        accuracyLabel.setBounds(300,10,frameWidth,400);
+
+        accuracySubLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+        accuracySubLabel.setForeground(new Color(204, 65, 146));
+        accuracySubLabel.setBounds(300,60,frameWidth,400);
+        accuracySubLabel.setText("Accuracy");
         
         programWordLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 50));
         programWordLabel.setForeground(Color.WHITE);
         programWordLabel.setBounds(0,200,frameWidth,400);
-        programWordLabel.setText("word");
         
         secondProgramWordLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 50));
         secondProgramWordLabel.setForeground(Color.WHITE);
         secondProgramWordLabel.setBounds(300,200,frameWidth,400);
-        secondProgramWordLabel.setText("word2");
 
         userWord.setVisible(true);
         userWord.setFont(new Font("Helvetica Neue", Font.PLAIN, 25));
@@ -102,36 +115,56 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         userWord.setBounds(frameWidth/2-100,450,200,50);
         userWord.addActionListener(this);
         userWord.addKeyListener(this);
-        userWord.setActionCommand("keyIn");
 
-        playAgainButton = new RoundedButton("", 60);
-        playAgainButton.setVisible(false);
-        playAgainButton.setText("PLAY AGAIN");
-        playAgainButton.setActionCommand("next");
-        playAgainButton.setFont(new Font("Helvetica Neue", Font.BOLD, 30));
-        playAgainButton.setBackground(new Color(204, 65, 146));
-        playAgainButton.setForeground(new Color(255,255,255));
-        playAgainButton.setBounds((frameWidth-250)/2,550,250,60);
-        playAgainButton.addActionListener(this);
+        playAgainButton = new ImageButton("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\tryagain.png");
+        playAgainButton.setBounds(570,525,60,60);
         playAgainButton.setFocusPainted(false);
+        playAgainButton.addActionListener(this);
         
+        homeButton = new ImageButton("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\home.png");
+        homeButton.setVisible(true);
+        homeButton.setBounds(9,10,60,60);
+        homeButton.setFocusPainted(false);
+        homeButton.addActionListener(this);
+        
+        switch (mode) {
+            case 1: levelLabel.setText("BEGINNER"); wpmSubLabel.setText("Correct"); break;
+            case 2: levelLabel.setText("INTERMEDIATE"); wpmSubLabel.setText("Correct"); break;
+            case 3: levelLabel.setText("ADVANCED"); wpmSubLabel.setText("Correct"); break;
+            case 4: levelLabel.setText("FREE TYPE"); wpmSubLabel.setText("WPM"); break;
+        }
 
-        
-        panel.add(secondsLabel);         
-        panel.add(wpmLabel);         
-        panel.add(accuracyLabel);         
+        panel.add(levelLabel);  
+        panel.add(secondsLabel); 
+        panel.add(secondsSubLabel);         
+        panel.add(wpmLabel);        
+        panel.add(wpmSubLabel);                
+        panel.add(accuracyLabel);             
+        panel.add(accuracySubLabel);        
         panel.add(programWordLabel);         
         panel.add(secondProgramWordLabel); 
         panel.add(userWord);      
         panel.add(playAgainButton);  
-        
+        panel.add(homeButton);  
     }
 
     // add words to array list
     public void addToList() {
         BufferedReader reader;
+        String filename;
+
+        filename = "C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordBeginnerList.txt.";
+        System.out.println(mode);
+
+        switch (mode) {
+            case 1: filename = "C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordBeginnerList.txt."; break;
+            case 2: filename = "C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordIntermediateList.txt"; break;
+            case 3: filename = "C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordAdvancedList.txt"; break;
+            case 4: filename = "C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordFreeTypeList.txt"; break;
+        }
+        
         try {
-            reader = new BufferedReader(new FileReader("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\wordsList.txt"));
+            reader = new BufferedReader(new FileReader(filename));
             String line = reader.readLine();
             while (line != null) {
                 words.add(line);
@@ -145,37 +178,36 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         }
     }
 
-    /*
-    public void toMainMenu(ActionEvent ae) throws IOException {
-        Main m = new Main();
-        m.changeScene("sample.fxml");
-    }
-*/
-    public void initialize() {
+
+    public void initialize() {  
+        timer = totalTime;
+        elapsedTime = 0;
+        wordCounter = 0;
+        countAll = 0;
+        counter = 0;
+
+        secondsLabel.setText("" + totalTime);
+
+        if (mode == 4) {
+            wpmLabel.setText("WPM");
+        }
+        else {
+            wpmLabel.setText("correct/total");
+        }
+        accuracyLabel.setText("acc");
+        programWordLabel.setText("word");
+        secondProgramWordLabel.setText("word2");
+
+        userWord.setText("");
+        userWord.setEnabled(true);
 
         playAgainButton.setVisible(false);
         playAgainButton.setEnabled(false);
-        //secondsLabel.setText("60");
-        addToList();
+        
         Collections.shuffle(words);
         programWordLabel.setText(words.get(wordCounter));
         secondProgramWordLabel.setText(words.get(wordCounter + 1)); 
         wordCounter++;
-/*
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
-        saveData = new File("src/data/" + formatter.format(date).strip() + ".txt");
-
-        try {
-            if (saveData.createNewFile()) {
-                System.out.println("File created: " + saveData.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
     }
 
 
@@ -189,137 +221,45 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
                 if (timer == -1) {
                     userWord.setEnabled(false);
                     userWord.setText("Game over");
-
-                    try {
-                        FileWriter myWriter = new FileWriter(saveData);
-                        myWriter.write(countAll + ";");
-                        myWriter.write(counter + ";");
-                        myWriter.write(String.valueOf(countAll - counter));
-                        myWriter.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
 
-                if (timer == -4) {
+                if (timer == -2) {
                     playAgainButton.setVisible(true);
                     playAgainButton.setEnabled(true);
-                    executor.shutdown();
                 }
 
                 timer -= 1;
             }
         }
     };
-/*
-    Runnable fadeCorrect = new Runnable() {
-        @Override
-        public void run() {
-            correct.setOpacity(0);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            correct.setOpacity(50);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            correct.setOpacity(100);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            correct.setOpacity(0);
-        }
-    };
-*/
-/*
-    Runnable fadeWrong = new Runnable() {
-        @Override
-        public void run() {
-            wrong.setOpacity(0);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            wrong.setOpacity(50);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            wrong.setOpacity(100);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            wrong.setOpacity(0);
-        }
-    };
-*/
 
-    public void startGame(KeyEvent ke) {
-
-        // only gets called once
-        if (first == 1) {
-            first = 0;
-            executor.scheduleAtFixedRate(r, 0, 1, TimeUnit.SECONDS);
-        }
-
-        if (ke.getKeyCode() == KeyEvent.VK_SPACE) {
-
-            String s = userWord.getText();
-            String real = programWordLabel.getText();
-            countAll++;
-        
-            // if correct
-            if (s.equals(real)) {
-                counter++;
-                wpmLabel.setText(String.valueOf(counter));
-
-                //Thread t = new Thread(fadeCorrect);
-                //t.start();
-            } 
-            else {
-                //Thread t = new Thread(fadeWrong);
-                //t.start();
-            }
-            userWord.setText("");
-            accuracyLabel.setText(String.valueOf(Math.round((counter * 1.0 / countAll) * 100)));
-            programWordLabel.setText(words.get(wordCounter));
-            secondProgramWordLabel.setText(words.get(wordCounter + 1));
-            wordCounter++;
-        }
-    }
-         
-    /**/
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Handle button click event
-        if (e.getSource() == playAgainButton) {
-            // Perform play again logic
-        }
-        
         String action = e.getActionCommand();
-
-
         System.out.println("action:" + action);
-    }
 
+
+        if (e.getSource() == playAgainButton) {
+            initialize();
+        }
+        if (e.getSource() == homeButton) {
+            Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeType.this);
+            //Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeType.this).getParent();
+            menu.getContentPane().removeAll();
+            menu.getContentPane().add(new Modes());
+            //menu.getContentPane().add(new Menu());
+            menu.revalidate();
+            menu.repaint();
+        }    
+    }
 
 
     @Override
     public void keyTyped(KeyEvent ke) {
         // Handle key typed event
     }
+
 
     @Override
     public void keyPressed(KeyEvent ke) {
@@ -341,6 +281,7 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
 
             String userType = userWord.getText().trim();
             String real = programWordLabel.getText();
+            String wpmText;
             countAll++;
         
             System.out.println("userType:'" + userType + "', real: '" + real + "'");
@@ -360,7 +301,16 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
                 System.out.println("incorrect");
             }
 
-            wpmLabel.setText(String.valueOf((counter*60)/elapsedTime));
+            if (elapsedTime != 0) {
+                if (mode == 4) {
+                    wpmText = String.valueOf((counter*60)/elapsedTime);
+                }
+                else {
+                    wpmText = "" + counter + "/" + countAll;
+                }
+                wpmLabel.setText(wpmText);
+            }
+
             userWord.setText("");
             accuracyLabel.setText(String.valueOf(Math.round((counter * 1.0 / countAll) * 100)) + "%");
             programWordLabel.setText(words.get(wordCounter));
@@ -369,11 +319,11 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+
     @Override
     public void keyReleased(KeyEvent ke) {
         // Handle key released event
     }
-
 
 
 }
