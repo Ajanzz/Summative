@@ -1,0 +1,77 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+class Modes extends JPanel {
+    private JButton beginnerButton, intermediateButton, advancedButton, ftButton
+
+    function Modes():
+        set size to (1200, 800)
+        create modesPanel as a JPanel with null layout
+
+        create titleLabel as a JLabel with text "SELECT YOUR LEVEL" and center alignment
+        set titleLabel font to "Helvetica Neue", bold, size 70
+        set titleLabel foreground color to white
+        set titleLabel bounds to (0, -300, 1200, 800)
+
+        create beginnerButton as a RoundedButton with text "BEGINNER" and size 70
+        set beginnerButton font to "Helvetica Neue", bold, size 35
+        set beginnerButton background color to RGB(204, 65, 146)
+        set beginnerButton foreground color to white
+        set beginnerButton focus painted to false
+        set beginnerButton bounds to (100, 250, 300, 70)
+        add ActionListener to beginnerButton:
+            get the parent window (Menu) using SwingUtilities.getWindowAncestor
+            remove all components from the content pane
+            add a new instance of BeginnerMode to the content pane
+            validate the content pane
+            repaint the window
+
+        create intermediateButton as a RoundedButton with text "INTERMEDIATE" and size 70
+        set intermediateButton font to "Helvetica Neue", bold, size 35
+        set intermediateButton background color to RGB(204, 65, 146)
+        set intermediateButton foreground color to white
+        set intermediateButton focus painted to false
+        set intermediateButton bounds to (450, 250, 300, 70)
+        add ActionListener to intermediateButton:
+            get the parent window (Menu) using SwingUtilities.getWindowAncestor
+            remove all components from the content pane
+            add a new instance of IntermediateMode to the content pane
+            validate the content pane
+            repaint the window
+
+        create advancedButton as a RoundedButton with text "ADVANCED" and size 70
+        set advancedButton font to "Helvetica Neue", bold, size 35
+        set advancedButton background color to RGB(204, 65, 146)
+        set advancedButton foreground color to white
+        set advancedButton focus painted to false
+        set advancedButton bounds to (800, 250, 300, 70)
+        add ActionListener to advancedButton:
+            get the parent window (Menu) using SwingUtilities.getWindowAncestor
+            remove all components from the content pane
+            add a new instance of AdvancedMode to the content pane
+            validate the content pane
+            repaint the window
+
+        create ftButton as a RoundedButton with text "FREE TYPE" and size 70
+        set ftButton font to "Helvetica Neue", bold, size 35
+        set ftButton background color to RGB(204, 65, 146)
+        set ftButton foreground color to white
+        set ftButton focus painted to false
+        set ftButton bounds to (450, 500, 300, 70)
+        add ActionListener to ftButton:
+            get the parent window (Menu) using SwingUtilities.getWindowAncestor
+            remove all components from the content pane
+            add a new instance of FreeTypeMenu to the content pane
+            validate the content pane
+            repaint the window
+
+        set modesPanel opaque to false
+        add titleLabel, beginnerButton, intermediateButton, advancedButton, and ftButton to modesPanel
+
+        set opaque to false
+        set layout to BorderLayout
+        add modesPanel to the center of the panel
+
+}
