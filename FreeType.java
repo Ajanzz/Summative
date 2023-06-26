@@ -1,6 +1,5 @@
 package src.java.main;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -42,7 +41,6 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
     private JTextField userWord = new JTextField(20);
 
     private JButton playAgainButton = new JButton();
-    private JButton homeButton = new JButton();
 
     ArrayList<String> words = new ArrayList<>();
 
@@ -106,24 +104,18 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         userWord.addKeyListener(this);
         userWord.setActionCommand("keyIn");
 
-        playAgainButton = new ImageButton("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\tryagain.png");
-        playAgainButton.setBounds(570,525,60,60);
+        playAgainButton = new RoundedButton("", 60);
+        playAgainButton.setVisible(false);
+        playAgainButton.setText("PLAY AGAIN");
+        playAgainButton.setActionCommand("next");
+        playAgainButton.setFont(new Font("Helvetica Neue", Font.BOLD, 30));
+        playAgainButton.setBackground(new Color(204, 65, 146));
+        playAgainButton.setForeground(new Color(255,255,255));
+        playAgainButton.setBounds((frameWidth-250)/2,550,250,60);
+        playAgainButton.addActionListener(this);
         playAgainButton.setFocusPainted(false);
         
-        homeButton = new ImageButton("C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\home.png");
-        homeButton.setVisible(true);
-        homeButton.setBounds(9,10,60,60);
-        homeButton.setFocusPainted(false);
-        /* 
-        homeButton.setText("image");
-        homeButton.setActionCommand("home");
-        homeButton.setFont(new Font("Helvetica Neue", Font.BOLD, 30));
-        homeButton.setBackground(new Color(204, 65, 146));
-        homeButton.setForeground(new Color(255,255,255));
-        homeButton.setBounds((frameWidth-250)/2,550,250,60);
-        homeButton.addActionListener(this);
-        homeButton.setFocusPainted(false);
-        */
+
         
         panel.add(secondsLabel);         
         panel.add(wpmLabel);         
@@ -132,7 +124,6 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
         panel.add(secondProgramWordLabel); 
         panel.add(userWord);      
         panel.add(playAgainButton);  
-        panel.add(homeButton);  
         
     }
 
@@ -210,7 +201,7 @@ public class FreeType extends JPanel implements ActionListener, KeyListener {
                     }
                 }
 
-                if (timer == -2) {
+                if (timer == -4) {
                     playAgainButton.setVisible(true);
                     playAgainButton.setEnabled(true);
                     executor.shutdown();
