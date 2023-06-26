@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 public class FreeTypeMenu extends JPanel {
     private JButton tenButton, thirtyButton, sixtyButton;
 
-    public FreeTypeMenu(){
+    public FreeTypeMenu(int mode){
         setSize(1200,800);
         JPanel modesPanel = new JPanel(null);
         JLabel titleLabel = new JLabel("SELECT YOUR TIME", SwingConstants.CENTER);
@@ -28,7 +28,7 @@ public class FreeTypeMenu extends JPanel {
             public void actionPerformed(ActionEvent e){
                 Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeTypeMenu.this);
                 menu.getContentPane().removeAll();
-                menu.getContentPane().add(new Ten());
+                menu.getContentPane().add(new FreeType(mode,10));
                 menu.validate();
                 menu.repaint();
             }
@@ -45,7 +45,7 @@ public class FreeTypeMenu extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeTypeMenu.this);
                 menu.getContentPane().removeAll();
-                menu.getContentPane().add(new SequenceMemory());
+                menu.getContentPane().add(new FreeType(mode, 30));
                 menu.validate();
                 menu.repaint();
             }
@@ -62,7 +62,7 @@ public class FreeTypeMenu extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Menu menu = (Menu) SwingUtilities.getWindowAncestor(FreeTypeMenu.this);
                 menu.getContentPane().removeAll();
-                menu.getContentPane().add(new GameController(60));
+                menu.getContentPane().add(new FreeType(mode, 60));
                 menu.validate();
                 menu.repaint();
             }
