@@ -1,116 +1,93 @@
+
+
 class FreeType extends JPanel implements ActionListener, KeyListener {
+    // Declare class variables
+    private int wordCounter, first, totalTime, timer, countAll, counter, elapsedTime;
+    private File saveData;
+    private ScheduledExecutorService executor;
+    private JLabel secondsLabel, wpmLabel, accuracyLabel, programWordLabel, secondProgramWordLabel;
+    private JTextField userWord;
+    private JButton playAgainButton;
+    private ArrayList<String> words;
+    private int frameWidth, frameHeight;
 
-    private int wordCounter
-    private int first
-    private int timer
+    // Constructor
+    public FreeType(int duration) {
+        // Initialize variables
+        totalTime = duration;
+        timer = totalTime;
+        wordCounter = 0;
+        first = 1;
+        countAll = 0;
+        counter = 0;
+        elapsedTime = 0;
+        frameWidth = 1200;
+        frameHeight = 800;
+        words = new ArrayList<>();
 
-    private File saveData
+        // Create and configure UI components
+        secondsLabel = new JLabel("", SwingConstants.CENTER);
+        wpmLabel = new JLabel("", SwingConstants.CENTER);
+        accuracyLabel = new JLabel("", SwingConstants.CENTER);
+        programWordLabel = new JLabel("", SwingConstants.CENTER);
+        secondProgramWordLabel = new JLabel("", SwingConstants.CENTER);
+        userWord = new JTextField(20);
+        playAgainButton = new JButton();
 
-    ScheduledExecutorService executor
+        // Set component properties and add listeners
+        // ...
 
-    private JLabel secondsLabel
-    private JLabel wpmLabel
-    private JLabel accuracyLabel
-    private JLabel programWordLabel
-    private JLabel secondProgramWordLabel
+        // Add components to the panel
+        // ...
 
-    private JTextField userWord
+        // Initialize the game
+        // ...
+    }
 
-    private JButton playAgainButton
+    // Method to add words to the array list
+    public void addToList() {
+        // Read words from a file and add them to the words array list
+        // ...
+    }
 
-    ArrayList<String> words
+    // Runnable for the game timer
+    Runnable r = new Runnable() {
+        @Override
+        public void run() {
+            // Update the timer label and perform actions when the timer reaches certain values
+            // ...
+        }
+    };
 
-    int frameWidth
-    int frameHeight
+    // Method to handle key events
+    public void startGame(KeyEvent ke) {
+        // Perform game logic when a key is pressed
+        // ...
+    }
 
-    constructor FreeType(duration):
-        timer = duration
-        start()
-        addToList()
-        initialize()
+    // ActionListener method
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Handle button click events and perform actions accordingly
+        // ...
+    }
 
-    method start():
-        frameWidth = 1200
-        frameHeight = 800
+    // KeyListener methods
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        // Handle key typed events
+    }
 
-        setSize(frameWidth, frameHeight)
-        panel = new JPanel()
-        panel.setOpaque(false)
-        panel.setLayout(null)
+    @Override
+    public void keyPressed(KeyEvent ke) {
+        // Handle key pressed events
+        // ...
+    }
 
-        setOpaque(false)
-        setLayout(new BorderLayout())
-        add(panel, BorderLayout.CENTER)
-
-        // Create and configure labels, text fields, and buttons
-
-        panel.add(secondsLabel)
-        panel.add(wpmLabel)
-        panel.add(accuracyLabel)
-        panel.add(programWordLabel)
-        panel.add(secondProgramWordLabel)
-        panel.add(userWord)
-        panel.add(playAgainButton)
-
-    method addToList():
-        // Read words from a file and add them to the 'words' ArrayList
-
-    method initialize():
-        playAgainButton.setVisible(false)
-        playAgainButton.setEnabled(false)
-        addToList()
-        Collections.shuffle(words)
-        programWordLabel.setText(words.get(wordCounter))
-        secondProgramWordLabel.setText(words.get(wordCounter + 1))
-        wordCounter++
-
-        // Create a file for saving data
-
-    Runnable r:
-        if timer > -1:
-            secondsLabel.setText(String.valueOf(timer))
-            timer -= 1
-        else:
-            if timer == -1:
-                userWord.setEnabled(false)
-                userWord.setText("Game over")
-
-                // Save data to the file
-
-            if timer == -4:
-                playAgainButton.setVisible(true)
-                playAgainButton.setEnabled(true)
-                executor.shutdown()
-
-            timer -= 1
-
-    method startGame(ke):
-        if first == 1:
-            first = 0
-            executor.scheduleAtFixedRate(r, 0, 1, TimeUnit.SECONDS)
-
-        if ke.getKeyCode() == KeyEvent.VK_SPACE:
-            s = userWord.getText()
-            real = programWordLabel.getText()
-            countAll++
-
-            if s.equals(real):
-                counter++
-                wpmLabel.setText(String.valueOf(counter))
-
-            userWord.setText("")
-            accuracyLabel.setText(String.valueOf(Math.round((counter * 1.0 / countAll) * 100)))
-            programWordLabel.setText(words.get(wordCounter))
-            secondProgramWordLabel.setText(words.get(wordCounter + 1))
-            wordCounter++
-
-    // Implement the ActionListener interface methods
-    // actionPerformed(ActionEvent e)
-
-    // Implement the KeyListener interface methods
-    // keyTyped(KeyEvent ke)
-    // keyPressed(KeyEvent ke)
-    // keyReleased(KeyEvent ke)
-
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        // Handle key released events
+    }
 }
+
 
