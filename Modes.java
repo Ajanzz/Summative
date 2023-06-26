@@ -29,7 +29,7 @@ public class Modes extends JPanel {
             public void actionPerformed(ActionEvent e){
                 Menu menu = (Menu) SwingUtilities.getWindowAncestor(Modes.this);
                 menu.getContentPane().removeAll();
-                menu.getContentPane().add(new BeginnerMode());
+                menu.getContentPane().add(new FreeTypeMenu(1));
                 menu.validate();
                 menu.repaint();
             }
@@ -46,7 +46,7 @@ public class Modes extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Menu menu = (Menu) SwingUtilities.getWindowAncestor(Modes.this);
                 menu.getContentPane().removeAll();
-                menu.getContentPane().add(new IntermediateMode());
+                menu.getContentPane().add(new FreeTypeMenu(2));
                 menu.validate();
                 menu.repaint();
             }
@@ -63,7 +63,7 @@ public class Modes extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Menu menu = (Menu) SwingUtilities.getWindowAncestor(Modes.this);
                 menu.getContentPane().removeAll();
-                menu.getContentPane().add(new AdvancedMode());
+                menu.getContentPane().add(new FreeTypeMenu(3));
                 menu.validate();
                 menu.repaint();
             }
@@ -80,7 +80,7 @@ public class Modes extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Menu menu = (Menu) SwingUtilities.getWindowAncestor(Modes.this);
                 menu.getContentPane().removeAll();
-                menu.getContentPane().add(new FreeTypeMenu());
+                menu.getContentPane().add(new FreeTypeMenu(4));
                 menu.validate();
                 menu.repaint();
             }
