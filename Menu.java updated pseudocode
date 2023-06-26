@@ -1,0 +1,136 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+class Menu extends JFrame {
+    private JButton startButton;
+    private JButton aboutButton;
+    private JPanel instructionPanel;
+    private int panelY;
+    private JButton closeButton;
+    private JButton exitButton;
+    private JButton logoButton;
+
+    function Menu():
+        invoke super with title "Touch Typer"
+        set size to (1200,800)
+        set location to center of the screen
+        set background color to RGB(53, 29, 89)
+        set layout to null
+        set resizable to false
+
+        logoButton = new ImageButton with image path "C:\\Users\\namnam\\Desktop\\Summative\\src\\java\\main\\logo.png"
+        set logoButton visible to true
+        set logoButton bounds to (450,50,300,290)
+        set logoButton focus painted to false
+
+        startButton = new RoundedButton with text "START" and size 60
+        set startButton font to "Helvetica Neue", bold, size 40
+        set startButton background color to RGB(204, 65, 146)
+        set startButton foreground color to white
+        set startButton focus painted to false
+        set startButton bounds to (500,400,200,60)
+        add ActionListener to startButton:
+            remove all components from the content pane
+            add a new instance of Modes to the content pane
+            validate the content pane
+            repaint the window
+
+        closeButton = new RoundedButton with text "CLOSE" and size 60
+        set closeButton font to "Helvetica Neue", bold, size 40
+        set closeButton background color to RGB(204, 65, 146)
+        set closeButton foreground color to white
+        set closeButton focus painted to false
+        set closeButton visible to false
+        set closeButton bounds to (500,1000,200,60)
+        add ActionListener to closeButton:
+            set instructionPanel visible to false
+            set startButton visible to true
+            set aboutButton visible to true
+            set exitButton visible to true
+            set closeButton visible to false
+
+        aboutButton = new RoundedButton with text "ABOUT" and size 60
+        set aboutButton font to "Helvetica Neue", bold, size 40
+        set aboutButton background color to RGB(204, 65, 146)
+        set aboutButton foreground color to white
+        set aboutButton focus painted to false
+        set aboutButton bounds to (500,500,200,60)
+        add ActionListener to aboutButton:
+            call showInstructionsPanel function
+            set startButton visible to false
+            set aboutButton visible to false
+            set exitButton visible to false
+            set closeButton visible to true
+
+        exitButton = new RoundedButton with text "EXIT" and size 60
+        set exitButton font to "Helvetica Neue", bold, size 40
+        set exitButton background color to RGB(204, 65, 146)
+        set exitButton foreground color to white
+        set exitButton focus painted to false
+        set exitButton bounds to (500,600,200,60)
+        add ActionListener to exitButton:
+            call System.exit(0)
+
+        instructionPanel = new RoundedPanel with corner radius 20
+        set instructionPanel layout to null
+        set instructionPanel bounds to (200, 800, 800, 500)
+        set instructionPanel background color to RGB(34, 21, 54)
+
+        instructionLabel = new JLabel with HTML formatted text "<html><center><b><font size='+3'>ABOUT</b></font></center></html>" and centered
+        set instructionLabel font to "Helvetica Neue", plain, size 30
+        set instructionLabel foreground color to white
+        set instructionLabel bounds to (0, -200, 800, 500)
+
+        howtoplayLabel = new JLabel with HTML formatted text "<html><font size='+1'><b>What is touch typing?</font></b><br>Touch typing is a style of typing. Touch typist will know their location on the keyboard through muscle memory—the term is often used to refer to a specific form of touch typing that involves placing the eight fingers in a horizontal row along the middle of the keyboard (the home row) and having them reach for specific other keys.<br><br><font size='+1'><b>About the program</b></font><br>Our program is a tool that aids the user in learning the touch typing method with the goal of memorizing the keyboard!<br>There are 3 difficulties: beginner (middle row), intermediate (top row), and advanced (bottom row)<br>Once the user feels like it, they can go to the free type mode where they can test their WPM in a more practical way.</html>"
+        set howtoplayLabel font to "Helvetica Neue", plain, size 16
+        set howtoplayLabel foreground color to white
+        set howtoplayLabel horizontal alignment to center
+        set howtoplayLabel bounds to (20, 0, 760, 500)
+
+        add instructionLabel and howtoplayLabel to instructionPanel
+
+        buttonPanel = new JPanel with FlowLayout
+        set buttonPanel opaque to false
+        add startButton and aboutButton to buttonPanel
+
+        menuPanel = new JPanel with BorderLayout
+        set menuPanel layout to null
+        set menuPanel opaque to false
+        add aboutButton, startButton, closeButton, instructionPanel, exitButton, and logoButton to menuPanel
+
+        set content pane to menuPanel
+        set visible to true
+        set default close operation to exit on close
+
+    function showInstructionsPanel():
+        set instructionPanel visible to true
+        call animate function
+
+    function animate():
+        frameHeight = height of content pane
+        panelHeight = height of instructionPanel
+        panelY = (frameHeight - panelHeight) / 2
+        set instructionPanel location to (instructionPanel.getX(), frameHeight)
+        set closeButton location to (closeButton.getX(), 1180)
+        initialPanelY = instructionPanel.getY()
+        initialButtonY = closeButton.getY()
+
+        timer = new Timer with delay 5
+        add ActionListener to timer:
+            currentY = frameHeight
+
+            if currentY > panelY:
+                currentY -= 15
+                changeInY = initialPanelY - currentY
+                panelY = initialPanelY - changeInY
+                buttonY = initialButtonY - changeInY
+                set instructionPanel location to (instructionPanel.getX(), panelY)
+                set closeButton location to (closeButton.getX(), buttonY)
+                call instructionPanel.revalidate()
+                call instructionPanel.repaint()
+            else:
+                stop the timer
+
+        start the timer
